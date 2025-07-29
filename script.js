@@ -8,11 +8,17 @@ function setupRestaurantFilters() {
     const localFavoritesCheckbox = document.getElementById('localFavorites');
     const kidsMenuCheckbox = document.getElementById('kidsMenu');
 
+    // Ensure the "All Restaurants" button is active by default
+    const allRestaurantsBtn = document.querySelector('#dining .filter-btn[data-filter="all"]');
+    if (allRestaurantsBtn && !document.querySelector('#dining .filter-btn.active')) {
+        allRestaurantsBtn.classList.add('active');
+    }
+
     function filterRestaurants() {
         const activeFilter = document.querySelector('#dining .filter-btn.active')?.dataset.filter || 'all';
         const showLocalOnly = localFavoritesCheckbox?.checked || false;
         const showKidsOnly = kidsMenuCheckbox?.checked || false;
-
+        
         let filteredRestaurants = mockDB.restaurants;
 
         // Filter by cuisine type
