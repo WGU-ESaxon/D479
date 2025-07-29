@@ -1,5 +1,447 @@
+// Comparison functionality
+let selectedHotels = [];
+const maxComparisons = 3;
+
+// Updated restaurant filtering functionality
+function setupRestaurantFilters() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const localFavoritesCheckbox = document.getElementById('localFavorites');
+    const kidsMenuCheckbox = document.getElementById('kidsMenu');
+
+    function filterRestaurants() {
+        const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+        const showLocalOnly = localFavoritesCheckbox?.checked || false;
+        const showKidsOnly = kidsMenuCheckbox?.checked || false;
+
+        let filteredRestaurants = mockDB.restaurants;
+
+        // Filter by cuisine type
+        if (activeFilter !== 'all') {
+            filteredRestaurants = filteredRestaurants.filter(restaurant => 
+                restaurant.cuisine === activeFilter
+            );
+        }
+
+        // Filter by local favorites
+        if (showLocalOnly) {
+            filteredRestaurants = filteredRestaurants.filter(restaurant => 
+                restaurant.isLocalFavorite === true
+            );
+        }
+
+        // Filter by kids menu
+        if (showKidsOnly) {
+            filteredRestaurants = filteredRestaurants.filter(restaurant => 
+                restaurant.hasKidsMenu === true
+            );
+        }
+
+        populateRestaurantGallery(filteredRestaurants);
+    }
+
+    // Set up filter button event listeners
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // Remove active class from all buttons
+            filterBtns.forEach(b => b.classList.remove('active'));
+            // Add active class to clicked button
+            btn.classList.add('active');
+            filterRestaurants();
+        });
+    });
+
+    // Set up checkbox event listeners
+    if (localFavoritesCheckbox) {
+        localFavoritesCheckbox.addEventListener('change', filterRestaurants);
+    }
+    if (kidsMenuCheckbox) {
+        kidsMenuCheckbox.addEventListener('change', filterRestaurants);
+    }
+}
+
+// Updated restaurant gallery population to match mockDB structure
+function populateRestaurantGallery(restaurants = mockDB.restaurants) {
+    const gallery = document.getElementById('restaurantGallery');
+    if (!gallery) return;
+
+    gallery.innerHTML = restaurants.map(restaurant => `
+        <div class="restaurant-card" data-cuisine="${restaurant.cuisine}" data-local="${restaurant.isLocalFavorite}" data-kids="${restaurant.hasKidsMenu}">
+            <div class="restaurant-image">
+                <div class="placeholder-img">[${restaurant.name} Image]</div>
+                ${restaurant.isLocalFavorite ? '<span class="local-badge">Local Favorite</span>' : ''}
+            </div>
+            <div class="restaurant-info">
+                <div class="restaurant-header">
+                    <h3>${restaurant.name}</h3>
+                    <div class="restaurant-rating">
+                        <span class="stars">${'★'.repeat(Math.floor(restaurant.rating))}${'☆'.repeat(5 - Math.floor(restaurant.rating))}</span>
+                        <span class="rating-number">${restaurant.rating}</span>
+                    </div>
+                </div>
+                <div class="restaurant-details">
+                    <span class="cuisine-type">${restaurant.cuisine}</span>
+                    <span class="price-range">${restaurant.priceRange}</span>
+                </div>
+                <p class="restaurant-description">${restaurant.description}</p>
+                <div class="restaurant-meta">
+                    <div class="meta-item">
+                        <span class="meta-icon">🕒</span>
+                        <span>${restaurant.hours}</span>
+                    </div>
+                    <div class="meta-item">
+                        <span class="meta-icon">📍</span>
+                        <span>${restaurant.location}</span>
+                    </div>
+                    ${restaurant.hasKidsMenu ? '<div class="meta-item"><span class="meta-icon">👶</span><span>Kids Menu</span></div>' : ''}
+                </div>
+                <button class="cta-btn restaurant-btn">View Details</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Add accommodation gallery population
+function populateAccommodationGallery(accommodations = mockDB.hotels) {
+    const gallery = document.getElementById('accommodationGallery');
+    if (!gallery) return;
+
+    gallery.innerHTML = accommodations.map(hotel => `
+        <div class="accommodation-card-new" data-type="${hotel.type}" data-local="${hotel.isLocalFavorite}" data-kids="${hotel.hasKidsMenu}" data-hotel-id="${hotel.id}">
+            <div class="comparison-checkbox-container">
+                <label class="comparison-checkbox">
+                    <input type="checkbox" class="hotel-compare-checkbox" data-hotel-id="${hotel.id}" ${selectedHotels.includes(hotel.id) ? 'checked' : ''}>
+                    <span class="checkbox-label">Compare</span>
+                </label>
+            </div>
+            <div class="accommodation-image">
+                <div class="placeholder-img">[${hotel.name} Image]</div>
+                ${hotel.isLocalFavorite ? '<span class="local-badge">Local Favorite</span>' : ''}
+            </div>
+            <div class="accommodation-info">
+                <div class="accommodation-header">
+                    <h3>${hotel.name}</h3>
+                    <div class="accommodation-rating">
+                        <span class="rating-number">${hotel.rating}</span>
+                    </div>
+                </div>
+                <div class="star-price-container">
+                    <div class="star-rating-inline">
+                        ${'★'.repeat(hotel.stars)}${'☆'.repeat(5 - hotel.stars)}
+                    </div>
+                    <span class="price-range-inline">${hotel.priceRange}</span>
+                </div>
+                <div class="accommodation-details">
+                    <span class="accommodation-type">${hotel.type}</span>
+                    <span class="room-count">${hotel.roomCount} rooms</span>
+                </div>
+                <p class="accommodation-description">${hotel.description}</p>
+                <div class="accommodation-meta">
+                    <div class="meta-item">
+                        <span class="meta-icon">📍</span>
+                        <span>${hotel.location}</span>
+                    </div>
+                    ${hotel.hasKidsMenu ? '<div class="meta-item"><span class="meta-icon">👶</span><span>Kid-Friendly</span></div>' : ''}
+                </div>
+                <div class="amenities-preview">
+                    <h4>Amenities:</h4>
+                    <div class="amenities-list" data-hotel-id="${hotel.id}">
+                        ${hotel.amenities.slice(0, 4).map(amenity => `<span class="amenity-tag">${amenity}</span>`).join('')}
+                        ${hotel.amenities.length > 4 ? `
+                            <span class="amenity-more" data-hotel-id="${hotel.id}" data-all-amenities='${JSON.stringify(hotel.amenities)}'>
+                                +${hotel.amenities.length - 4} more
+                            </span>
+                        ` : ''}
+                    </div>
+                </div>
+                <button class="cta-btn accommodation-btn">View Details & Book</button>
+            </div>
+        </div>
+    `).join('');
+
+    // Set up amenity expansion functionality
+    setupAmenityExpansion();
+    
+    // Set up comparison checkboxes
+    setupComparisonCheckboxes();
+}
+
+// Setup comparison checkbox functionality
+function setupComparisonCheckboxes() {
+    const checkboxes = document.querySelectorAll('.hotel-compare-checkbox');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const hotelId = parseInt(this.dataset.hotelId);
+
+            if (this.checked) {
+                if (selectedHotels.length < maxComparisons) {
+                    selectedHotels.push(hotelId);
+                } else {
+                    // Prevent checking if max reached
+                    this.checked = false;
+                    alert(`You can only compare up to ${maxComparisons} hotels at once.`);
+                    return;
+                }
+            } else {
+                selectedHotels = selectedHotels.filter(id => id !== hotelId);
+            }
+
+            updateComparisonControls();
+        });
+    });
+}
+
+// Update comparison controls visibility and state
+function updateComparisonControls() {
+    const comparisonControls = document.getElementById('comparisonControls');
+    const selectedCount = document.getElementById('selectedCount');
+    const compareBtn = document.getElementById('compareBtn');
+
+    if (selectedHotels.length > 0) {
+        comparisonControls.style.display = 'flex';
+        selectedCount.textContent = selectedHotels.length;
+        compareBtn.disabled = selectedHotels.length < 2;
+    } else {
+        comparisonControls.style.display = 'none';
+    }
+}
+
+// Show comparison view
+function showComparison() {
+    const comparisonView = document.getElementById('comparisonView');
+    const comparisonGrid = document.getElementById('comparisonGrid');
+    const accommodationGallery = document.getElementById('accommodationGallery');
+
+    // Get selected hotels data
+    const selectedHotelsData = mockDB.hotels.filter(hotel => selectedHotels.includes(hotel.id));
+
+    // Generate comparison cards with all amenities expanded
+    comparisonGrid.innerHTML = selectedHotelsData.map(hotel => `
+        <div class="comparison-card">
+            <div class="comparison-card-header">
+                <h3>${hotel.name}</h3>
+            </div>
+            
+            <div class="comparison-card-badges">
+                <div class="star-rating">
+                    ${'★'.repeat(hotel.stars)}${'☆'.repeat(5 - hotel.stars)}
+                </div>
+                ${hotel.isLocalFavorite ? '<span class="local-badge">Local Favorite</span>' : '<span></span>'}
+            </div>
+            
+            <div class="comparison-details">
+                <div class="detail-row">
+                    <span class="detail-label">Type:</span>
+                    <span class="detail-value">${hotel.type}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Rating:</span>
+                    <span class="detail-value">${hotel.rating}/5</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Price Range:</span>
+                    <span class="detail-value">${hotel.priceRange}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Rooms:</span>
+                    <span class="detail-value">${hotel.roomCount}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Location:</span>
+                    <span class="detail-value">${hotel.location}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Kid-Friendly:</span>
+                    <span class="detail-value">${hotel.hasKidsMenu ? 'Yes' : 'No'}</span>
+                </div>
+            </div>
+            
+            <div class="comparison-description">
+                <h4>Description</h4>
+                <p>${hotel.description}</p>
+            </div>
+            
+            <div class="comparison-amenities">
+                <h4>All Amenities</h4>
+                <div class="amenities-list-comparison">
+                    ${hotel.amenities.map(amenity => `<span class="amenity-tag">${amenity}</span>`).join('')}
+                </div>
+            </div>
+            
+            <button class="cta-btn accommodation-btn">Book ${hotel.name}</button>
+        </div>
+    `).join('');
+
+    // Show comparison view and hide gallery
+    comparisonView.style.display = 'block';
+    accommodationGallery.style.display = 'none';
+
+    // Scroll to comparison view
+    comparisonView.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Close comparison view
+function closeComparison() {
+    const comparisonView = document.getElementById('comparisonView');
+    const accommodationGallery = document.getElementById('accommodationGallery');
+
+    comparisonView.style.display = 'none';
+    accommodationGallery.style.display = 'grid';
+}
+
+// Clear all selections
+function clearComparisons() {
+    selectedHotels = [];
+
+    // Uncheck all checkboxes
+    const checkboxes = document.querySelectorAll('.hotel-compare-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    updateComparisonControls();
+    closeComparison();
+}
+
+// Setup comparison event listeners
+function setupComparisonControls() {
+    const compareBtn = document.getElementById('compareBtn');
+    const clearComparisonBtn = document.getElementById('clearComparisonBtn');
+    const closeComparisonBtn = document.getElementById('closeComparison');
+
+    if (compareBtn) {
+        compareBtn.addEventListener('click', showComparison);
+    }
+
+    if (clearComparisonBtn) {
+        clearComparisonBtn.addEventListener('click', clearComparisons);
+    }
+
+    if (closeComparisonBtn) {
+        closeComparisonBtn.addEventListener('click', closeComparison);
+    }
+}
+
+// Function to handle amenity expansion
+function setupAmenityExpansion() {
+    const amenityMoreButtons = document.querySelectorAll('.amenity-more');
+    
+    amenityMoreButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const hotelId = this.dataset.hotelId;
+            const allAmenities = JSON.parse(this.dataset.allAmenities);
+            const amenitiesList = this.parentElement;
+            
+            // Check if already expanded
+            if (this.classList.contains('expanded')) {
+                // Collapse - show only first 4 amenities
+                const amenityTags = amenitiesList.querySelectorAll('.amenity-tag');
+                amenityTags.forEach((tag, index) => {
+                    if (index >= 4) {
+                        tag.remove();
+                    }
+                });
+                
+                this.textContent = `+${allAmenities.length - 4} more`;
+                this.classList.remove('expanded');
+            } else {
+                // Expand - show all amenities
+                const hiddenAmenities = allAmenities.slice(4);
+                
+                // Remove the "+X more" button temporarily
+                this.remove();
+                
+                // Add all hidden amenities
+                hiddenAmenities.forEach(amenity => {
+                    const amenityTag = document.createElement('span');
+                    amenityTag.className = 'amenity-tag amenity-tag-expanded';
+                    amenityTag.textContent = amenity;
+                    amenitiesList.appendChild(amenityTag);
+                });
+                
+                // Add a "Show Less" button
+                const showLessButton = document.createElement('span');
+                showLessButton.className = 'amenity-more expanded';
+                showLessButton.dataset.hotelId = hotelId;
+                showLessButton.dataset.allAmenities = JSON.stringify(allAmenities);
+                showLessButton.textContent = 'Show Less';
+                amenitiesList.appendChild(showLessButton);
+                
+                // Re-setup the click handler for the new button
+                showLessButton.addEventListener('click', arguments.callee);
+            }
+        });
+    });
+}
+
+function setupAccommodationFilters() {
+    const filterBtns = document.querySelectorAll('#accommodations .filter-btn');
+    const localFavoritesCheckbox = document.getElementById('localFavoritesAccom');
+    const kidsMenuCheckbox = document.getElementById('kidsMenuAccom');
+
+    function filterAccommodations() {
+        const activeFilter = document.querySelector('#accommodations .filter-btn.active')?.dataset.filter || 'all';
+        const showLocalOnly = localFavoritesCheckbox?.checked || false;
+        const showKidsOnly = kidsMenuCheckbox?.checked || false;
+
+        let filteredAccommodations = mockDB.hotels;
+
+        if (activeFilter !== 'all') {
+            filteredAccommodations = filteredAccommodations.filter(hotel =>
+                hotel.type === activeFilter
+            );
+        }
+
+        if (showLocalOnly) {
+            filteredAccommodations = filteredAccommodations.filter(hotel =>
+                hotel.isLocalFavorite === true
+            );
+        }
+
+        if (showKidsOnly) {
+            filteredAccommodations = filteredAccommodations.filter(hotel =>
+                hotel.hasKidsMenu === true
+            );
+        }
+
+        populateAccommodationGallery(filteredAccommodations);
+    }
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterAccommodations();
+        });
+    });
+
+    if (localFavoritesCheckbox) {
+        localFavoritesCheckbox.addEventListener('change', filterAccommodations);
+    }
+    if (kidsMenuCheckbox) {
+        kidsMenuCheckbox.addEventListener('change', filterAccommodations);
+    }
+}
+
 // Navigation functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize restaurant gallery and filters
+    populateRestaurantGallery();
+    setupRestaurantFilters();
+
+    // Initialize accommodation gallery and filters
+    populateAccommodationGallery();
+    setupAccommodationFilters();
+
+    // Setup comparison controls
+    setupComparisonControls();
+
+    // Initialize accommodation gallery and filters
+    populateAccommodationGallery();
+    setupAccommodationFilters();
+
     // Get all navigation links and sections
     const navLinks = document.querySelectorAll('.nav-link');
     const sections = document.querySelectorAll('.section');

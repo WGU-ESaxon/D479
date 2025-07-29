@@ -122,42 +122,48 @@
             <div class="content-container">
                 <h2>Where to Stay</h2>
 
-                <div class="accommodation-types">
-                    <div class="accommodation-card">
-                        <div class="placeholder-img">[Resort Image]</div>
-                        <h3>Luxury Resorts</h3>
-                        <p>Full-service resorts with spa, dining, and beach access</p>
-                        <ul>
-                            <li>Taniti Beach Resort</li>
-                            <li>Volcano View Resort</li>
-                            <li>Paradise Bay Resort</li>
-                        </ul>
-                        <button class="cta-btn">View Resorts</button>
+                <!-- Filter Controls -->
+                <div class="accommodation-filters">
+                    <button class="filter-btn active" data-filter="all">All Accommodations</button>
+                    <button class="filter-btn" data-filter="Resort">Resorts</button>
+                    <button class="filter-btn" data-filter="Hotel">Hotels</button>
+                    <button class="filter-btn" data-filter="Bed & Breakfast">B&Bs</button>
+                    <button class="filter-btn" data-filter="Hostel">Hostels</button>
+                    <div class="filter-options">
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="localFavoritesAccom"> Local Favorites Only
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="kidsMenuAccom"> Kid-Friendly
+                        </label>
                     </div>
+                </div>
 
-                    <div class="accommodation-card">
-                        <div class="placeholder-img">[Hotel Image]</div>
-                        <h3>Hotels</h3>
-                        <p>Comfortable accommodations in town and near attractions</p>
-                        <ul>
-                            <li>Taniti Grand Hotel</li>
-                            <li>Island View Inn</li>
-                            <li>Downtown Hotel</li>
-                        </ul>
-                        <button class="cta-btn">View Hotels</button>
+                <!-- Comparison Controls -->
+                <div class="comparison-controls" id="comparisonControls" style="display: none;">
+                    <div class="comparison-info">
+                        <span id="selectedCount">0</span> of 3 hotels selected for comparison
                     </div>
+                    <div class="comparison-actions">
+                        <button class="cta-btn primary" id="compareBtn" disabled>Compare Selected</button>
+                        <button class="cta-btn secondary" id="clearComparisonBtn">Clear Selection</button>
+                    </div>
+                </div>
 
-                    <div class="accommodation-card">
-                        <div class="placeholder-img">[B&B Image]</div>
-                        <h3>Bed & Breakfasts</h3>
-                        <p>Intimate, locally-owned accommodations</p>
-                        <ul>
-                            <li>Sunrise B&B</li>
-                            <li>Garden House Inn</li>
-                            <li>Coastal Cottage B&B</li>
-                        </ul>
-                        <button class="cta-btn">View B&Bs</button>
+                <!-- Comparison View -->
+                <div class="comparison-view" id="comparisonView" style="display: none;">
+                    <div class="comparison-header">
+                        <h3>Hotel Comparison</h3>
+                        <button class="close-comparison" id="closeComparison">✕ Close Comparison</button>
                     </div>
+                    <div class="comparison-grid" id="comparisonGrid">
+                        <!-- Comparison cards will be populated here -->
+                    </div>
+                </div>
+
+                <!-- Accommodation Gallery -->
+                <div class="accommodation-gallery" id="accommodationGallery">
+                    <!-- Accommodations will be populated by JavaScript -->
                 </div>
 
                 <div class="booking-info">
@@ -258,44 +264,29 @@
             </div>
         </section>
 
-        <!-- Dining Section -->
         <section id="dining" class="section">
             <div class="content-container">
                 <h2>Dining on Taniti</h2>
 
-                <div class="dining-categories">
-                    <div class="dining-card">
-                        <h3>Local Cuisine</h3>
-                        <div class="placeholder-img">[Local Food Image]</div>
-                        <p>Fresh seafood, tropical fruits, and traditional island dishes</p>
-                        <ul>
-                            <li>Taniti Seafood Grill</li>
-                            <li>Island Spice Restaurant</li>
-                            <li>Coconut Grove Café</li>
-                        </ul>
+                <!-- Filter Controls -->
+                <div class="dining-filters">
+                    <button class="filter-btn active" data-filter="all">All Restaurants</button>
+                    <button class="filter-btn" data-filter="Local Seafood">Local Seafood</button>
+                    <button class="filter-btn" data-filter="American">American</button>
+                    <button class="filter-btn" data-filter="Pan-Asian">Pan-Asian</button>
+                    <div class="filter-options">
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="localFavorites"> Local Favorites Only
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="kidsMenu"> Kid-Friendly
+                        </label>
                     </div>
+                </div>
 
-                    <div class="dining-card">
-                        <h3>American Cuisine</h3>
-                        <div class="placeholder-img">[American Food Image]</div>
-                        <p>Familiar favorites with an island twist</p>
-                        <ul>
-                            <li>Taniti Burger Bar</li>
-                            <li>Island Steakhouse</li>
-                            <li>Beachside Grill</li>
-                        </ul>
-                    </div>
-
-                    <div class="dining-card">
-                        <h3>Pan-Asian</h3>
-                        <div class="placeholder-img">[Asian Food Image]</div>
-                        <p>Authentic flavors from across Asia</p>
-                        <ul>
-                            <li>Dragon Palace</li>
-                            <li>Sushi Taniti</li>
-                            <li>Spice Garden</li>
-                        </ul>
-                    </div>
+                <!-- Restaurant Gallery -->
+                <div class="restaurant-gallery" id="restaurantGallery">
+                    <!-- Restaurants will be populated by JavaScript -->
                 </div>
 
                 <div class="grocery-info">
