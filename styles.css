@@ -396,7 +396,7 @@ main {
     padding: 0.25rem 0.75rem;
     border-radius: 15px;
     font-size: 0.9rem;
-    color: var(--text-color);
+    color: #3498db;
 }
 
 .price-range {

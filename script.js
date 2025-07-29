@@ -4,12 +4,12 @@ const maxComparisons = 3;
 
 // Updated restaurant filtering functionality
 function setupRestaurantFilters() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    const filterBtns = document.querySelectorAll('#dining .filter-btn');
     const localFavoritesCheckbox = document.getElementById('localFavorites');
     const kidsMenuCheckbox = document.getElementById('kidsMenu');
 
     function filterRestaurants() {
-        const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+        const activeFilter = document.querySelector('#dining .filter-btn.active')?.dataset.filter || 'all';
         const showLocalOnly = localFavoritesCheckbox?.checked || false;
         const showKidsOnly = kidsMenuCheckbox?.checked || false;
 
