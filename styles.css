@@ -260,43 +260,693 @@ main {
     margin-bottom: 0.5rem;
 }
 
-/* Accommodations */
-.accommodation-types {
+/* Filter Controls (Shared by Dining and Accommodations) */
+.dining-filters,
+.accommodation-filters {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.filter-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid #3498db;
+    background: transparent;
+    color: #3498db;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: #3498db;
+    color: white;
+}
+
+.filter-options {
+    display: flex;
+    gap: 1rem;
+    margin-left: auto;
+}
+
+.filter-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #333;
+    cursor: pointer;
+}
+
+.filter-checkbox input[type="checkbox"] {
+    accent-color: #3498db;
+}
+
+/* Restaurant Gallery */
+.restaurant-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: 2rem;
-    margin: 2rem 0;
+    margin-bottom: 3rem;
 }
 
-.accommodation-card {
+.restaurant-card {
     background: white;
-    padding: 2rem;
-    border-radius: 8px;
+    border-radius: 15px;
+    overflow: hidden;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.accommodation-card h3 {
-    color: #2c3e50;
+.restaurant-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.restaurant-image {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+}
+
+.restaurant-image .placeholder-img {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+.restaurant-info {
+    padding: 1.5rem;
+}
+
+.restaurant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 1rem;
 }
 
-.accommodation-card ul {
-    list-style: none;
-    margin: 1rem 0;
+.restaurant-header h3 {
+    margin: 0;
+    color: var(--text-color);
+    font-size: 1.3rem;
 }
 
-.accommodation-card li {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #eee;
+.restaurant-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
 }
 
-.booking-info {
-    background: white;
-    padding: 2rem;
+.stars {
+    color: #ffd700;
+    font-size: 1rem;
+}
+
+.rating-number {
+    font-size: 0.9rem;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+.restaurant-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.cuisine-type {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+}
+
+.price-range {
+    font-weight: bold;
+    color: var(--accent-color);
+    font-size: 1.1rem;
+}
+
+.restaurant-description {
+    color: var(--text-color);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.restaurant-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-color);
+    font-size: 0.9rem;
+}
+
+.meta-icon {
+    font-size: 1rem;
+}
+
+.restaurant-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: var(--accent-color);
+    color: white;
+    border: none;
     border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.restaurant-btn:hover {
+    background: var(--primary-color);
+}
+
+/* Accommodation Gallery */
+.accommodation-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.accommodation-card-new {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.accommodation-card-new:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.accommodation-image {
+    position: relative;
+    height: 220px;
+    overflow: hidden;
+}
+
+.accommodation-image .placeholder-img {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+.accommodation-info {
+    padding: 1.5rem;
+}
+
+.accommodation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.accommodation-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.4rem;
+    line-height: 1.2;
+}
+
+.accommodation-rating {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+}
+
+.accommodation-rating .rating-number {
+    background: #3498db;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.star-price-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.star-rating-inline {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffd700;
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+}
+
+.price-range-inline {
+    font-weight: bold;
+    color: #e74c3c;
+    font-size: 1.1rem;
+}
+
+.accommodation-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.accommodation-type {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.room-count {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.accommodation-description {
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+}
+
+.accommodation-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.amenities-preview {
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.amenities-preview h4 {
+    color: #2c3e50;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.amenities-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.amenity-tag {
+    background: #f8f9fa;
+    color: #555;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.amenity-tag-expanded {
+    background: #e3f2fd;
+    color: #1976d2;
+    border-color: #bbdefb;
+    animation: fadeInScale 0.3s ease;
+}
+
+.amenity-more {
+    background: #3498db;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+}
+
+.amenity-more:hover {
+    background: #2980b9;
+    transform: scale(1.05);
+}
+
+.amenity-more.expanded {
+    background: #e74c3c;
+}
+
+.amenity-more.expanded:hover {
+    background: #c0392b;
+}
+
+.accommodation-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    font-size: 1rem;
+}
+
+.accommodation-btn:hover {
+    background: #2980b9;
+}
+
+/* Sort Controls */
+.sort-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+    justify-content: center;
+}
+
+.sort-label {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+.sort-select {
+    padding: 0.5rem 1rem;
+    border: 2px solid #3498db;
+    border-radius: 25px;
+    background: white;
+    color: #2c3e50;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 200px;
+}
+
+.sort-select:hover,
+.sort-select:focus {
+    border-color: #2980b9;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Comparison Features */
+.comparison-checkbox-container {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    width: 90px;
+}
+
+.comparison-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.4rem 0.6rem;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: #2c3e50;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.comparison-checkbox:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.05);
+}
+
+.comparison-checkbox input[type="checkbox"] {
+    accent-color: #3498db;
+    margin: 0;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.checkbox-label {
+    font-size: 0.75rem;
+    flex-shrink: 0;
+}
+
+.local-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #e74c3c;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    z-index: 5;
+}
+
+.comparison-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(52, 152, 219, 0.1);
+    padding: 1rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    border: 2px solid #3498db;
+}
+
+.comparison-info {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.comparison-actions {
+    display: flex;
+    gap: 1rem;
+}
+
+.comparison-view {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border: 2px solid #3498db;
+}
+
+.comparison-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #3498db;
+}
+
+.comparison-header h3 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+.close-comparison {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.close-comparison:hover {
+    background: #c0392b;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.comparison-card {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 2px solid #e9ecef;
+    transition: transform 0.3s ease;
+}
+
+.comparison-card:hover {
+    transform: translateY(-3px);
+    border-color: #3498db;
+}
+
+.comparison-card-image {
+    height: 180px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.comparison-card-image .placeholder-img {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.comparison-card-header {
     text-align: center;
-    margin-top: 2rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+    padding: 0;
+}
+
+.comparison-card-header h3 {
+    color: #2c3e50;
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.comparison-card-badges {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0.75rem;
+    background: #f8f9fa;
+    /*border-radius: 8px;
+    border: 1px solid #e9ecef;*/
+}
+
+.comparison-card-badges .star-rating {
+    background: rgba(0, 0, 0, 0.7);
+    color: #ffd700;
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.comparison-card-badges .local-badge {
+    background: #e74c3c;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin: 0;
+    position: static;
+}
+
+.comparison-details {
+    margin-bottom: 1.5rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.detail-label {
+    font-weight: bold;
+    color: #495057;
+}
+
+.detail-value {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.comparison-description {
+    margin-bottom: 1.5rem;
+}
+
+.comparison-description h4,
+.comparison-amenities h4 {
+    color: #2c3e50;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+}
+
+.comparison-description p {
+    color: #555;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.comparison-amenities {
+    margin-bottom: 1.5rem;
+}
+
+.amenities-list-comparison {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.amenities-list-comparison .amenity-tag {
+    background: #e3f2fd;
+    color: #1976d2;
+    border-color: #bbdefb;
+    font-size: 0.8rem;
 }
 
 /* Activities */
@@ -344,203 +994,6 @@ main {
 .activity-item h4 {
     color: #2c3e50;
     margin-bottom: 0.5rem;
-}
-
-/* Dining */
-.dining-filters {
-    margin-bottom: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-}
-
-.filter-btn {
-    padding: 0.5rem 1rem;
-    border: 2px solid #3498db;
-    background: transparent;
-    color: #3498db;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.filter-btn:hover,
-.filter-btn.active {
-    background: #3498db;
-    color: white;
-}
-
-.filter-options {
-    display: flex;
-    gap: 1rem;
-    margin-left: auto;
-}
-
-.filter-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #333;
-    cursor: pointer;
-}
-
-.filter-checkbox input[type="checkbox"] {
-    accent-color: #3498db;
-}
-
-.restaurant-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin: 2rem 0;
-}
-
-.restaurant-card {
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
-}
-
-.restaurant-card:hover {
-    transform: translateY(-5px);
-}
-
-.restaurant-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    position: relative;
-}
-
-.local-badge {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: #e74c3c;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-size: 0.8rem;
-}
-
-.restaurant-info {
-    padding: 1.5rem;
-}
-
-.restaurant-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-}
-
-.restaurant-rating {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.stars {
-    color: #f1c40f;
-}
-
-.rating-number {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-.restaurant-details {
-    margin-bottom: 1rem;
-}
-
-.cuisine-type {
-    color: #666;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-}
-
-.price-range {
-    color: #2c3e50;
-    font-weight: bold;
-}
-
-.restaurant-meta {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.meta-item {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    color: #666;
-    font-size: 0.9rem;
-}
-
-.meta-icon {
-    color: #3498db;
-}
-
-.restaurant-btn {
-    width: 100%;
-    background: #3498db;
-    color: white;
-    border: none;
-    padding: 0.75rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.restaurant-btn:hover {
-    background: #2980b9;
-}
-
-.dining-categories {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin: 2rem 0;
-}
-
-.dining-card {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.dining-card h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-}
-
-.dining-card ul {
-    list-style: none;
-    margin: 1rem 0;
-}
-
-.dining-card li {
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #eee;
-}
-
-.grocery-info {
-    background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    text-align: center;
-    margin-top: 2rem;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 /* Transportation */
@@ -737,937 +1190,14 @@ main {
     gap: 1rem;
 }
 
-/* Accommodation Gallery Styles */
-.accommodation-filters {
-    margin-bottom: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-}
-
-.accommodation-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-}
-
-.accommodation-card-new {
+.booking-info,
+.grocery-info {
     background: white;
-    border-radius: 15px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.accommodation-card-new:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.accommodation-image {
-    position: relative;
-    height: 220px;
-    overflow: hidden;
-}
-
-.accommodation-image .placeholder-img {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #3498db, #2c3e50);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-.star-rating {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #ffd700;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 1rem;
-}
-
-.accommodation-info {
-    padding: 1.5rem;
-}
-
-.accommodation-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-}
-
-.accommodation-header h3 {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 1.4rem;
-    line-height: 1.2;
-}
-
-.accommodation-rating {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.25rem;
-}
-
-.accommodation-rating .rating-number {
-    background: #3498db;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.9rem;
-    font-weight: bold;
-}
-
-.accommodation-rating .price-range {
-    font-weight: bold;
-    color: #e74c3c;
-    font-size: 1.1rem;
-}
-
-.accommodation-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.accommodation-type {
-    background: rgba(52, 152, 219, 0.1);
-    color: #3498db;
-    padding: 0.25rem 0.75rem;
-    border-radius: 15px;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.room-count {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-.accommodation-description {
-    color: #555;
-    line-height: 1.5;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-}
-
-.accommodation-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.amenities-preview {
-    margin-bottom: 1.5rem;
-}
-
-.amenities-preview h4 {
-    color: #2c3e50;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.amenities-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.amenity-tag {
-    background: #f8f9fa;
-    color: #555;
-    padding: 0.25rem 0.5rem;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    border: 1px solid #e9ecef;
-}
-
-.amenity-more {
-    background: #3498db;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
-.accommodation-btn {
-    width: 100%;
-    padding: 0.75rem;
-    background: #3498db;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s ease;
-    font-size: 1rem;
-}
-
-.accommodation-btn:hover {
-    background: #2980b9;
-}
-
-/* Accommodation Gallery Styles */
-.accommodation-filters {
-    margin-bottom: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-}
-
-.accommodation-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-}
-
-.accommodation-card-new {
-    background: white;
-    border-radius: 15px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.accommodation-card-new:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.accommodation-image {
-    position: relative;
-    height: 220px;
-    overflow: hidden;
-}
-
-.accommodation-image .placeholder-img {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #3498db, #2c3e50);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    font-size: 1.1rem;
-}
-
-.star-rating {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    color: #ffd700;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 1rem;
-}
-
-.accommodation-info {
-    padding: 1.5rem;
-}
-
-.accommodation-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-}
-
-.accommodation-header h3 {
-    margin: 0;
-    color: #2c3e50;
-    font-size: 1.4rem;
-    line-height: 1.2;
-}
-
-.accommodation-rating {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.25rem;
-}
-
-.accommodation-rating .rating-number {
-    background: #3498db;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.9rem;
-    font-weight: bold;
-}
-
-.accommodation-rating .price-range {
-    font-weight: bold;
-    color: #e74c3c;
-    font-size: 1.1rem;
-}
-
-.accommodation-details {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.accommodation-type {
-    background: rgba(52, 152, 219, 0.1);
-    color: #3498db;
-    padding: 0.25rem 0.75rem;
-    border-radius: 15px;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.room-count {
-    color: #666;
-    font-size: 0.9rem;
-}
-
-.accommodation-description {
-    color: #555;
-    line-height: 1.5;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-}
-
-.accommodation-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-bottom: 1rem;
-}
-
-.amenities-preview {
-    margin-bottom: 1.5rem;
-    overflow: hidden;
-}
-
-.amenities-preview h4 {
-    color: #2c3e50;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-    transition: all 0.3s ease;
-}
-
-.amenities-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    transition: all 0.3s ease;
-}
-
-.amenity-tag {
-    background: #f8f9fa;
-    color: #555;
-    padding: 0.25rem 0.5rem;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    border: 1px solid #e9ecef;
-    transition: all 0.3s ease;
-}
-
-.amenity-tag-expanded {
-    background: #e3f2fd;
-    color: #1976d2;
-    border-color: #bbdefb;
-    animation: fadeInScale 0.3s ease;
-}
-
-.amenity-more {
-    background: #3498db;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    user-select: none;
-}
-
-.amenity-more:hover {
-    background: #2980b9;
-    transform: scale(1.05);
-}
-
-.amenity-more.expanded {
-    background: #e74c3c;
-}
-
-.amenity-more.expanded:hover {
-    background: #c0392b;
-}
-
-.accommodation-btn {
-    width: 100%;
-    padding: 0.75rem;
-    background: #3498db;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s ease;
-    font-size: 1rem;
-}
-
-.accommodation-btn:hover {
-    background: #2980b9;
-}
-
-@keyframes fadeInScale {
-    0% {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* Responsive Design for Accommodations */
-@media (max-width: 768px) {
-    .accommodation-filters {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .accommodation-filters .filter-options {
-        margin-left: 0;
-        justify-content: center;
-    }
-
-    .accommodation-gallery {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .accommodation-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    .accommodation-rating {
-        align-items: flex-start;
-        flex-direction: row;
-        gap: 0.5rem;
-    }
-
-    .amenities-list {
-        justify-content: flex-start;
-    }
-}
-
-/* Comparison Controls */
-.comparison-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(52, 152, 219, 0.1);
-    padding: 1rem;
-    border-radius: 10px;
-    margin-bottom: 2rem;
-    border: 2px solid #3498db;
-}
-
-.comparison-info {
-    font-weight: bold;
-    color: #2c3e50;
-}
-
-.comparison-actions {
-    display: flex;
-    gap: 1rem;
-}
-
-/* Comparison Checkbox */
-.comparison-checkbox-container {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 10;
-    width: 90px;
-}
-
-.comparison-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 0.4rem 0.6rem;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: #2c3e50;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    width: 100%;
-    justify-content: flex-start;
-}
-
-.comparison-checkbox:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.05);
-}
-
-.comparison-checkbox input[type="checkbox"] {
-    accent-color: #3498db;
-    margin: 0;
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
-}
-
-.checkbox-label {
-    font-size: 0.75rem;
-    flex-shrink: 0;
-}
-
-.star-rating {
-    position: absolute;
-    top: 10px;
-    left: 100px; /* Position after the checkbox */
-    background: rgba(0, 0, 0, 0.7);
-    color: #ffd700;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.9rem; /* Slightly smaller */
-    z-index: 8;
-}
-
-.local-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #e74c3c;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    z-index: 5;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .comparison-checkbox-container {
-        position: static;
-        margin-bottom: 0.5rem;
-        display: flex;
-        justify-content: flex-start;
-        padding-left: 1rem;
-        max-width: none;
-    }
-    
-    .comparison-checkbox {
-        font-size: 0.8rem;
-        padding: 0.5rem;
-    }
-    
-    .checkbox-label {
-        font-size: 0.8rem;
-    }
-    
-    /* Stack elements vertically on mobile */
-    .star-rating {
-        position: static;
-        display: inline-block;
-        margin: 0.5rem 0;
-    }
-    
-    .local-badge {
-        position: static;
-        display: inline-block;
-        margin: 0.5rem 0;
-    }
-    
-    .accommodation-image {
-        padding-top: 2rem; /* Add space for mobile stacked elements */
-    }
-}
-
-/* Fix comparison card header layout */
-.comparison-card-header {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-top: 1rem;
-}
-
-.comparison-card-header h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 1.3rem;
-}
-
-.comparison-card-badges {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    position: relative;
-}
-
-.comparison-card-badges .star-rating {
-    position: static;
-    display: inline-block;
-    background: rgba(0, 0, 0, 0.7);
-    color: #ffd700;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 1rem;
-    margin: 0;
-}
-
-.comparison-card-badges .local-badge {
-    position: static;
-    display: inline-block;
-    background: #e74c3c;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    margin: 0;
-}
-
-.comparison-card-badges:has(.star-rating):not(:has(.local-badge)) {
-    justify-content: flex-start;
-}
-
-.comparison-card-badges:has(.local-badge):not(:has(.star-rating)) {
-    justify-content: flex-end;
-}
-
-/* Position star rating below the title */
-.comparison-card-header{
-    position: static;
-    display: inline-block;
-    background: rgba(0, 0, 0, 0.7);
-    color: #ffd700;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-/* Position local badge in comparison view */
-.comparison-card-header {
-    position: static;
-    display: inline-block;
-    margin-top: 0.5rem;
-    margin-left: 0.5rem;
-}
-
-/* Create a flex container for star rating and local badge */
-.comparison-card-badges {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.accommodation-card-new {
-    position: relative;
-}
-
-/* Fix comparison checkbox positioning */
-.comparison-checkbox-container {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 10;
-    width: 90px;
-}
-
-.comparison-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 0.4rem 0.6rem;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: #2c3e50;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    width: 100%;
-    justify-content: flex-start;
-}
-
-/* Remove ALL star rating overlays from accommodation cards */
-.accommodation-image .star-rating,
-.star-rating:not(.comparison-card .star-rating):not(.star-rating-inline) {
-    display: none !important;
-}
-
-/* Keep local badge anchored to top-right */
-.local-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #e74c3c;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    z-index: 5;
-}
-
-/* Star-price container styling */
-.star-price-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.star-rating-inline {
-    background: rgba(0, 0, 0, 0.7);
-    color: #ffd700;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.9rem;
-}
-
-.price-range-inline {
-    font-weight: bold;
-    color: #e74c3c;
-    font-size: 1.1rem;
-}
-
-/* Hide the old price range from accommodation-rating */
-.accommodation-rating .price-range {
-    display: none;
-}
-
-/* COMPARISON VIEW SPECIFIC STYLES */
-.comparison-view {
-    background: white;
-    border-radius: 15px;
     padding: 2rem;
-    margin-bottom: 3rem;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-    border: 2px solid #3498db;
-}
-
-/* Clean comparison card header - no background, no positioning conflicts */
-.comparison-card .comparison-card-header {
+    border-radius: 8px;
     text-align: center;
-    margin-bottom: 1.5rem;
-    background: none !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    position: static !important;
-}
-
-.comparison-card .comparison-card-badges {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    background: none !important;
-    padding: 0 !important;
-    border-radius: 0 !important;
-}
-
-/* Remove any conflicting styles that might be applying backgrounds */
-.comparison-card * {
-    background: inherit;
-}
-
-.comparison-card .comparison-card-header,
-.comparison-card .comparison-card-badges,
-.comparison-card h3 {
-    background: none !important;
-    box-shadow: none !important;
-}
-
-.comparison-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #3498db;
-}
-
-.comparison-header h3 {
-    color: #2c3e50;
-    font-size: 1.8rem;
-    margin: 0;
-}
-
-.close-comparison {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s ease;
-}
-
-.close-comparison:hover {
-    background: #c0392b;
-}
-
-.comparison-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-}
-
-.comparison-card {
-    background: #f8f9fa;
-    border-radius: 15px;
-    padding: 1.5rem;
-    border: 2px solid #e9ecef;
-    transition: transform 0.3s ease;
-}
-
-.comparison-card:hover {
-    transform: translateY(-3px);
-    border-color: #3498db;
-}
-
-.comparison-card-header {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    position: relative;
-}
-
-.comparison-card-header h3 {
-    color: #2c3e50;
-    margin-bottom: 0.5rem;
-    font-size: 1.3rem;
-}
-
-.comparison-card-header .local-badge {
-    position: static;
-    display: inline-block;
-    margin-top: 0.5rem;
-}
-
-.comparison-details {
-    margin-bottom: 1.5rem;
-}
-
-.detail-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid #dee2e6;
-}
-
-.detail-label {
-    font-weight: bold;
-    color: #495057;
-}
-
-.detail-value {
-    color: #2c3e50;
-    font-weight: 500;
-}
-
-.comparison-description {
-    margin-bottom: 1.5rem;
-}
-
-.comparison-description h4,
-.comparison-amenities h4 {
-    color: #2c3e50;
-    margin-bottom: 0.75rem;
-    font-size: 1.1rem;
-}
-
-.comparison-description p {
-    color: #555;
-    line-height: 1.5;
-    font-size: 0.95rem;
-}
-
-.comparison-amenities {
-    margin-bottom: 1.5rem;
-}
-
-.amenities-list-comparison {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.amenities-list-comparison .amenity-tag {
-    background: #e3f2fd;
-    color: #1976d2;
-    border-color: #bbdefb;
-    font-size: 0.8rem;
-}
-
-/* Responsive Design for Comparison */
-@media (max-width: 768px) {
-    .comparison-controls {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-
-    .comparison-actions {
-        justify-content: center;
-    }
-
-    .comparison-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .comparison-header {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-
-    .comparison-checkbox-container {
-        position: static;
-        margin-bottom: 1rem;
-        display: flex;
-        justify-content: center;
-    }
+    margin-top: 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 /* Footer */
@@ -1676,40 +1206,6 @@ footer {
     color: white;
     padding: 2rem;
     margin-top: 3rem;
-}
-
-/* Responsive Design for Accommodations */
-@media (max-width: 768px) {
-    .accommodation-filters {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .accommodation-filters .filter-options {
-        margin-left: 0;
-        justify-content: center;
-    }
-
-    .accommodation-gallery {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-    }
-
-    .accommodation-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    .accommodation-rating {
-        align-items: flex-start;
-        flex-direction: row;
-        gap: 0.5rem;
-    }
-
-    .amenities-list {
-        justify-content: flex-start;
-    }
 }
 
 .footer-content {
@@ -1749,270 +1245,20 @@ footer {
     border-top: 1px solid #34495e;
 }
 
-/* Fix comparison checkbox positioning */
-.comparison-checkbox-container {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 10;
-    width: 90px;
+/* Animations */
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
-.comparison-checkbox {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: rgba(255, 255, 255, 0.95);
-    padding: 0.4rem 0.6rem;
-    border-radius: 15px;
-    cursor: pointer;
-    font-size: 0.75rem;
-    font-weight: bold;
-    color: #2c3e50;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    width: 100%;
-    justify-content: flex-start;
-}
-
-.comparison-checkbox:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.05);
-}
-
-.comparison-checkbox input[type="checkbox"] {
-    accent-color: #3498db;
-    margin: 0;
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
-}
-
-.checkbox-label {
-    font-size: 0.75rem;
-    flex-shrink: 0;
-}
-
-/* Remove ALL star rating overlays from accommodation cards */
-.accommodation-image .star-rating,
-.star-rating:not(.comparison-card .star-rating):not(.star-rating-inline) {
-    display: none !important;
-}
-
-/* Keep local badge anchored to top-right */
-.local-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #e74c3c;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    z-index: 5;
-}
-
-/* Star-price container styling */
-.star-price-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.star-rating-inline {
-    background: rgba(0, 0, 0, 0.7);
-    color: #ffd700;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.9rem;
-}
-
-.price-range-inline {
-    font-weight: bold;
-    color: #e74c3c;
-    font-size: 1.1rem;
-}
-
-/* Hide the old price range from accommodation-rating */
-.accommodation-rating .price-range {
-    display: none;
-}
-
-/* Accommodation header styling */
-.accommodation-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1rem;
-}
-
-.accommodation-rating {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.25rem;
-}
-
-.accommodation-rating .rating-number {
-    background: #3498db;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.9rem;
-    font-weight: bold;
-}
-
-/* COMPARISON VIEW SPECIFIC STYLES */
-.comparison-card-header {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    position: relative;
-    padding-top: 1rem;
-}
-
-.comparison-card-header h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 1.3rem;
-}
-
-.comparison-card-badges {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    position: relative;
-}
-
-.comparison-card-badges .star-rating {
-    position: static;
-    display: inline-block;
-    background: rgba(0, 0, 0, 0.7);
-    color: #ffd700;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 1rem;
-    margin: 0;
-}
-
-.comparison-card-badges .local-badge {
-    position: static;
-    display: inline-block;
-    background: #e74c3c;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    margin: 0;
-}
-
-.comparison-card-badges:has(.star-rating):not(:has(.local-badge)) {
-    justify-content: flex-start;
-}
-
-.comparison-card-badges:has(.local-badge):not(:has(.star-rating)) {
-    justify-content: flex-end;
-}
-
-/* Responsive adjustments */
+/* Responsive Design */
 @media (max-width: 768px) {
-    .comparison-checkbox-container {
-        position: static;
-        margin-bottom: 0.5rem;
-        display: flex;
-        justify-content: flex-start;
-        padding-left: 1rem;
-        width: auto;
-    }
-
-    .comparison-checkbox {
-        font-size: 0.8rem;
-        padding: 0.5rem;
-        width: auto;
-    }
-
-    .checkbox-label {
-        font-size: 0.8rem;
-    }
-
-    .star-price-container {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    .local-badge {
-        position: static;
-        display: inline-block;
-        margin: 0.5rem 0;
-    }
-
-    .accommodation-image {
-        padding-top: 2rem;
-    }
-
-    .comparison-card-badges {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 0.5rem;
-    }
-
-    .comparison-card-header {
-        padding-top: 0.5rem;
-    }
-}
-
-/* Remove duplicate and conflicting styles */
-.star-rating:not(.comparison-card-badges .star-rating):not(.star-rating-inline) {
-    display: none;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .comparison-controls {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-
-    .comparison-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .comparison-checkbox-container {
-        position: static;
-        margin-bottom: 0.5rem;
-        display: flex;
-        justify-content: flex-start;
-        padding-left: 1rem;
-        width: auto;
-    }
-
-    .star-price-container {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
-    }
-
-    .local-badge {
-        position: static;
-        display: inline-block;
-        margin: 0.5rem 0;
-    }
-
-    .accommodation-image {
-        padding-top: 2rem;
-    }
-
-    .comparison-card .comparison-card-badges {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: 0.5rem;
-    }
-
     .navbar {
         flex-direction: column;
         gap: 1rem;
@@ -2030,6 +1276,14 @@ footer {
         text-align: center;
     }
 
+    .hero-content h2 {
+        font-size: 2rem;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
     .about-grid {
         grid-template-columns: 1fr;
     }
@@ -2042,12 +1296,103 @@ footer {
         width: 150px;
     }
 
-    .hero-content h2 {
-        font-size: 2rem;
+    .dining-filters,
+    .accommodation-filters {
+        flex-direction: column;
+        align-items: stretch;
     }
 
-    .hero-actions {
+    .filter-options {
+        margin-left: 0;
         justify-content: center;
+    }
+
+    .restaurant-gallery,
+    .accommodation-gallery {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .accommodation-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .accommodation-rating {
+        align-items: flex-start;
+        flex-direction: row;
+        gap: 0.5rem;
+    }
+
+    .star-price-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .sort-controls {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+    
+    .sort-select {
+        min-width: 250px;
+    }
+
+    .comparison-controls {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .comparison-actions {
+        justify-content: center;
+    }
+
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .comparison-card-image {
+        height: 150px;
+        margin-bottom: 0.75rem;
+    }
+    
+    .comparison-card-image .placeholder-img {
+        font-size: 0.9rem;
+    }
+
+    .comparison-header {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .comparison-checkbox-container {
+        position: static;
+        margin-bottom: 0.5rem;
+        display: flex;
+        justify-content: flex-start;
+        padding-left: 1rem;
+        width: auto;
+    }
+
+    .comparison-card-badges {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    .local-badge {
+        position: static;
+        display: inline-block;
+        margin: 0.5rem 0;
+    }
+
+    .accommodation-image {
+        padding-top: 2rem;
     }
 }
 
@@ -2057,11 +1402,6 @@ footer {
     }
 
     .highlight-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .accommodation-types,
-    .dining-categories {
         grid-template-columns: 1fr;
     }
 

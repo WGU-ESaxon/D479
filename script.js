@@ -219,6 +219,10 @@ function showComparison() {
     // Generate comparison cards with all amenities expanded
     comparisonGrid.innerHTML = selectedHotelsData.map(hotel => `
         <div class="comparison-card">
+            <div class="comparison-card-image">
+                <div class="placeholder-img">[${hotel.name} Image]</div>
+            </div>
+            
             <div class="comparison-card-header">
                 <h3>${hotel.name}</h3>
             </div>
@@ -375,48 +379,121 @@ function setupAmenityExpansion() {
     });
 }
 
+// Add sorting functionality
+let currentSort = 'default';
+let currentAccommodations = mockDB.hotels;
+
+// Function to convert price range to numeric value for sorting
+function getPriceValue(priceRange) {
+    switch(priceRange) {
+        case '$': return 1;
+        case '$$': return 2;
+        case '$$$': return 3;
+        case '$$$$': return 4;
+        default: return 0;
+    }
+}
+
+// Function to sort accommodations
+function sortAccommodations(accommodations, sortType) {
+    const sortedAccommodations = [...accommodations];
+    
+    switch(sortType) {
+        case 'price-asc':
+            return sortedAccommodations.sort((a, b) => getPriceValue(a.priceRange) - getPriceValue(b.priceRange));
+        case 'price-desc':
+            return sortedAccommodations.sort((a, b) => getPriceValue(b.priceRange) - getPriceValue(a.priceRange));
+        case 'rating-asc':
+            return sortedAccommodations.sort((a, b) => a.rating - b.rating);
+        case 'rating-desc':
+            return sortedAccommodations.sort((a, b) => b.rating - a.rating);
+        case 'name-asc':
+            return sortedAccommodations.sort((a, b) => a.name.localeCompare(b.name));
+        case 'name-desc':
+            return sortedAccommodations.sort((a, b) => b.name.localeCompare(a.name));
+        case 'default':
+        default:
+            return sortedAccommodations.sort((a, b) => a.id - b.id); // Sort by ID (original order)
+    }
+}
+
+// Setup sort controls
+function setupSortControls() {
+    const sortSelect = document.getElementById('sortSelect');
+    
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            currentSort = this.value;
+            
+            // Apply current filters and then sort
+            const filteredAccommodations = applyCurrentFilters();
+            const sortedAccommodations = sortAccommodations(filteredAccommodations, currentSort);
+            
+            populateAccommodationGallery(sortedAccommodations);
+        });
+    }
+}
+
+// Function to apply current filters (extracted for reuse)
+function applyCurrentFilters() {
+    const activeFilter = document.querySelector('#accommodations .filter-btn.active')?.dataset.filter || 'all';
+    const localFavoritesCheckbox = document.getElementById('localFavoritesAccom');
+    const kidsMenuCheckbox = document.getElementById('kidsMenuAccom');
+    const showLocalOnly = localFavoritesCheckbox?.checked || false;
+    const showKidsOnly = kidsMenuCheckbox?.checked || false;
+
+    let filteredAccommodations = mockDB.hotels;
+
+    // Filter by accommodation type
+    if (activeFilter !== 'all') {
+        filteredAccommodations = filteredAccommodations.filter(hotel => 
+            hotel.type === activeFilter
+        );
+    }
+
+    // Filter by local favorites
+    if (showLocalOnly) {
+        filteredAccommodations = filteredAccommodations.filter(hotel => 
+            hotel.isLocalFavorite === true
+        );
+    }
+
+    // Filter by kids menu
+    if (showKidsOnly) {
+        filteredAccommodations = filteredAccommodations.filter(hotel => 
+            hotel.hasKidsMenu === true
+        );
+    }
+
+    return filteredAccommodations;
+}
+
 function setupAccommodationFilters() {
     const filterBtns = document.querySelectorAll('#accommodations .filter-btn');
     const localFavoritesCheckbox = document.getElementById('localFavoritesAccom');
     const kidsMenuCheckbox = document.getElementById('kidsMenuAccom');
 
     function filterAccommodations() {
-        const activeFilter = document.querySelector('#accommodations .filter-btn.active')?.dataset.filter || 'all';
-        const showLocalOnly = localFavoritesCheckbox?.checked || false;
-        const showKidsOnly = kidsMenuCheckbox?.checked || false;
-
-        let filteredAccommodations = mockDB.hotels;
-
-        if (activeFilter !== 'all') {
-            filteredAccommodations = filteredAccommodations.filter(hotel =>
-                hotel.type === activeFilter
-            );
-        }
-
-        if (showLocalOnly) {
-            filteredAccommodations = filteredAccommodations.filter(hotel =>
-                hotel.isLocalFavorite === true
-            );
-        }
-
-        if (showKidsOnly) {
-            filteredAccommodations = filteredAccommodations.filter(hotel =>
-                hotel.hasKidsMenu === true
-            );
-        }
-
-        populateAccommodationGallery(filteredAccommodations);
+        // Apply filters and then sort
+        const filteredAccommodations = applyCurrentFilters();
+        const sortedAccommodations = sortAccommodations(filteredAccommodations, currentSort);
+        
+        populateAccommodationGallery(sortedAccommodations);
     }
 
+    // Set up filter button event listeners
     filterBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
+            // Remove active class from all buttons
             filterBtns.forEach(b => b.classList.remove('active'));
+            // Add active class to clicked button
             btn.classList.add('active');
             filterAccommodations();
         });
     });
 
+    // Set up checkbox event listeners
     if (localFavoritesCheckbox) {
         localFavoritesCheckbox.addEventListener('change', filterAccommodations);
     }
@@ -434,13 +511,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize accommodation gallery and filters
     populateAccommodationGallery();
     setupAccommodationFilters();
+    setupSortControls();
 
     // Setup comparison controls
     setupComparisonControls();
-
-    // Initialize accommodation gallery and filters
-    populateAccommodationGallery();
-    setupAccommodationFilters();
 
     // Get all navigation links and sections
     const navLinks = document.querySelectorAll('.nav-link');
