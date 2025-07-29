@@ -341,7 +341,7 @@ main {
 .restaurant-image .placeholder-img {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(135deg, #3498db, #2c3e50);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -362,7 +362,7 @@ main {
 
 .restaurant-header h3 {
     margin: 0;
-    color: var(--text-color);
+    color: #2c3e50;
     font-size: 1.3rem;
 }
 
@@ -380,7 +380,7 @@ main {
 
 .rating-number {
     font-size: 0.9rem;
-    color: var(--text-color);
+    color: #2c3e50;
     font-weight: bold;
 }
 
@@ -401,12 +401,12 @@ main {
 
 .price-range {
     font-weight: bold;
-    color: var(--accent-color);
+    color: #e74c3c;
     font-size: 1.1rem;
 }
 
 .restaurant-description {
-    color: var(--text-color);
+    color: #555;
     line-height: 1.5;
     margin-bottom: 1rem;
     font-size: 0.95rem;
@@ -423,7 +423,7 @@ main {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--text-color);
+    color: #555;
     font-size: 0.9rem;
 }
 
@@ -434,7 +434,7 @@ main {
 .restaurant-btn {
     width: 100%;
     padding: 0.75rem;
-    background: var(--accent-color);
+    background: #3498db;
     color: white;
     border: none;
     border-radius: 8px;
@@ -444,7 +444,7 @@ main {
 }
 
 .restaurant-btn:hover {
-    background: var(--primary-color);
+    background: #2980b9;
 }
 
 /* Accommodation Gallery */
@@ -950,50 +950,241 @@ main {
 }
 
 /* Activities */
-.activity-categories {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+.activity-filters {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.activities-gallery {
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
-    margin-top: 2rem;
+    margin-bottom: 3rem;
 }
 
-.category {
+.activity-card {
     background: white;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    min-height: 250px;
 }
 
-.category h3 {
+.activity-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.activity-image {
+    flex: 0 0 350px;
+    height: 350px;
+    overflow: hidden;
+    position: relative;
+}
+
+.activity-image .placeholder-img {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.activity-content {
+    flex: 1;
+    display: flex;
+    padding: 1.5rem;
+    gap: 1.5rem;
+}
+
+.activity-main-info {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-header {
+    margin-bottom: 1rem;
+}
+
+.activity-header h3 {
     color: #2c3e50;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.activity-price-rating {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.activity-price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #e74c3c;
+}
+
+.activity-price.free {
+    color: #27ae60;
+}
+
+.activity-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.activity-stars {
+    color: #ffd700;
+    font-size: 1rem;
+}
+
+.activity-rating-number {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: bold;
+}
+
+.activity-description {
+    color: #555;
+    line-height: 1.5;
     margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    flex-grow: 1;
+}
+
+.activity-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.activity-category-tag {
+    background: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.activity-book-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+    font-size: 1rem;
+    align-self: flex-start;
+}
+
+.activity-book-btn:hover {
+    background: #2980b9;
+}
+
+.activity-details {
+    flex: 1;
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin: -0.5rem -0.5rem -0.5rem 0;
+}
+
+.activity-details h4 {
+    color: #2c3e50;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
     border-bottom: 2px solid #3498db;
     padding-bottom: 0.5rem;
 }
 
-.activity-list {
+.detail-item {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #e9ecef;
 }
 
-.activity-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: #f8f9fa;
-    border-radius: 6px;
+.detail-item:last-child {
+    border-bottom: none;
 }
 
-.activity-icon {
-    font-size: 2rem;
-    min-width: 50px;
+.detail-label {
+    font-weight: bold;
+    color: #495057;
+    font-size: 0.9rem;
+    flex: 0 0 40%;
 }
 
-.activity-item h4 {
+.detail-value {
     color: #2c3e50;
-    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-align: right;
+    flex: 1;
+}
+
+.detail-value.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    justify-content: flex-end;
+}
+
+.detail-category-tag {
+    background: #e3f2fd;
+    color: #1976d2;
+    padding: 0.15rem 0.4rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.difficulty-easy {
+    color: #27ae60;
+}
+
+.difficulty-moderate {
+    color: #f39c12;
+}
+
+.difficulty-hard {
+    color: #e74c3c;
+}
+
+/* Status indicators */
+.activity-status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f39c12;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
 }
 
 /* Transportation */
@@ -1258,6 +1449,21 @@ footer {
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+    .activity-image {
+        flex: 0 0 300px; /* Slightly smaller on tablets but still larger than before */
+        height: 220px;
+    }
+    
+    .activity-content {
+        gap: 1.25rem;
+    }
+    
+    .activity-card {
+        min-height: 220px;
+    }
+}
+
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
@@ -1394,6 +1600,51 @@ footer {
     .accommodation-image {
         padding-top: 2rem;
     }
+
+    .activity-card {
+        flex-direction: column;
+        min-height: auto;
+    }
+    
+    .activity-image {
+        flex: none;
+        height: 220px; /* Increased from 200px even on mobile */
+    }
+    
+    .activity-content {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .activity-details {
+        margin: 0;
+        padding: 1rem;
+    }
+    
+    .detail-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+    
+    .detail-value {
+        text-align: left;
+    }
+    
+    .detail-value.categories {
+        justify-content: flex-start;
+    }
+    
+    .activity-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filter-options {
+        margin-left: 0;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1405,8 +1656,19 @@ footer {
         grid-template-columns: 1fr;
     }
 
+    .activity-price-rating {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
     .activity-categories {
-        grid-template-columns: 1fr;
+        margin-bottom: 0.5rem;
+    }
+    
+    .activity-book-btn {
+        width: 100%;
+        text-align: center;
     }
 
     .transport-options {

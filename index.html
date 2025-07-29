@@ -193,87 +193,43 @@
             <div class="content-container">
                 <h2>Things to Do</h2>
 
-                <div class="activity-categories">
-                    <div class="category">
-                        <h3>Beach & Water Activities</h3>
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <span class="activity-icon">🤿</span>
-                                <div>
-                                    <h4>Snorkeling Tours</h4>
-                                    <p>Explore coral reefs and marine life</p>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <span class="activity-icon">🎣</span>
-                                <div>
-                                    <h4>Deep Sea Fishing</h4>
-                                    <p>Charter boats available daily</p>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <span class="activity-icon">🏄</span>
-                                <div>
-                                    <h4>Beach Activities</h4>
-                                    <p>Swimming, surfing, beach volleyball</p>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Filter Controls -->
+                <div class="activity-filters">
+                    <button class="filter-btn active" data-filter="all">All Activities</button>
+                    <button class="filter-btn" data-filter="Cultural">Cultural</button>
+                    <button class="filter-btn" data-filter="Scenic">Scenic</button>
+                    <button class="filter-btn" data-filter="Nature">Nature</button>
+                    <button class="filter-btn" data-filter="Active">Active</button>
+                    <button class="filter-btn" data-filter="Beach">Beach</button>
+                    <button class="filter-btn" data-filter="Water">Water</button>
+                    <button class="filter-btn" data-filter="Entertainment">Entertainment</button>
+                    <div class="filter-options">
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="familyFriendlyActivities"> Family-Friendly Only
+                        </label>
+                        <label class="filter-checkbox">
+                            <input type="checkbox" id="freeActivities"> Free Activities
+                        </label>
                     </div>
+                </div>
 
-                    <div class="category">
-                        <h3>Adventure & Nature</h3>
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <span class="activity-icon">🌲</span>
-                                <div>
-                                    <h4>Zip-lining</h4>
-                                    <p>Soar through the rainforest canopy</p>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <span class="activity-icon">🌋</span>
-                                <div>
-                                    <h4>Volcano Tours</h4>
-                                    <p>Guided hikes to volcanic peaks</p>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <span class="activity-icon">🥾</span>
-                                <div>
-                                    <h4>Rainforest Hiking</h4>
-                                    <p>Trails for all skill levels</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Sort Controls -->
+                <div class="sort-controls">
+                    <div class="sort-label">Sort by:</div>
+                    <select id="activitySortSelect" class="sort-select">
+                        <option value="default">Default Order</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="rating-asc">Rating: Low to High</option>
+                        <option value="rating-desc">Rating: High to Low</option>
+                        <option value="name-asc">Name: A to Z</option>
+                        <option value="name-desc">Name: Z to A</option>
+                    </select>
+                </div>
 
-                    <div class="category">
-                        <h3>Entertainment & Culture</h3>
-                        <div class="activity-list">
-                            <div class="activity-item">
-                                <span class="activity-icon">🏛️</span>
-                                <div>
-                                    <h4>Island Museum</h4>
-                                    <p>Learn about local history and culture</p>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <span class="activity-icon">🍺</span>
-                                <div>
-                                    <h4>Taniti Microbrewery</h4>
-                                    <p>Local craft beer and tours</p>
-                                </div>
-                            </div>
-                            <div class="activity-item">
-                                <span class="activity-icon">💃</span>
-                                <div>
-                                    <h4>Dance Club</h4>
-                                    <p>Nightlife and live music</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Activities Gallery -->
+                <div class="activities-gallery" id="activitiesGallery">
+                    <!-- Activities will be populated by JavaScript -->
                 </div>
             </div>
         </section>

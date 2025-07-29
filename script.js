@@ -502,6 +502,182 @@ function setupAccommodationFilters() {
     }
 }
 
+// Activities functionality
+let currentActivitySort = 'default';
+
+// Function to populate activities gallery
+function populateActivitiesGallery(activities = mockDB.activities) {
+    const gallery = document.getElementById('activitiesGallery');
+    if (!gallery) return;
+
+    gallery.innerHTML = activities.map(activity => `
+        <div class="activity-card" data-categories='${JSON.stringify(activity.categories)}' data-price="${activity.price}" data-tags='${JSON.stringify(activity.tags)}'>
+            <div class="activity-image">
+                <div class="placeholder-img">[${activity.name} Image]</div>
+                ${activity.status ? `<div class="activity-status">${activity.status}</div>` : ''}
+            </div>
+            
+            <div class="activity-content">
+                <div class="activity-main-info">
+                    <div class="activity-header">
+                        <h3>${activity.name}</h3>
+                        <div class="activity-price-rating">
+                            <div class="activity-price ${activity.price === 0 ? 'free' : ''}">
+                                ${activity.price === 0 ? 'FREE' : `$${activity.price}`}
+                            </div>
+                            ${activity.rating > 0 ? `
+                                <div class="activity-rating">
+                                    <span class="activity-stars">${'★'.repeat(Math.floor(activity.rating))}${'☆'.repeat(5 - Math.floor(activity.rating))}</span>
+                                    <span class="activity-rating-number">${activity.rating}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div class="activity-categories">
+                        ${activity.categories.map(category => `<span class="activity-category-tag">${category}</span>`).join('')}
+                    </div>
+                    
+                    <p class="activity-description">${activity.description}</p>
+                    
+                    <button class="activity-book-btn">${activity.status ? 'Coming Soon' : 'Book Activity'}</button>
+                </div>
+                
+                <div class="activity-details">
+                    <h4>Activity Details</h4>
+                    <div class="detail-item">
+                        <span class="detail-label">Location:</span>
+                        <span class="detail-value">${activity.location}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Categories:</span>
+                        <span class="detail-value categories">
+                            ${activity.categories.map(category => `<span class="detail-category-tag">${category}</span>`).join('')}
+                        </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Difficulty:</span>
+                        <span class="detail-value difficulty-${activity.difficulty.toLowerCase()}">${activity.difficulty}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Duration:</span>
+                        <span class="detail-value">${activity.duration}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Age Restriction:</span>
+                        <span class="detail-value">${activity.ageRestriction}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Function to apply current activity filters
+function applyCurrentActivityFilters() {
+    const activeFilter = document.querySelector('#activities .filter-btn.active')?.dataset.filter || 'all';
+    const familyFriendlyCheckbox = document.getElementById('familyFriendlyActivities');
+    const freeActivitiesCheckbox = document.getElementById('freeActivities');
+    const showFamilyFriendlyOnly = familyFriendlyCheckbox?.checked || false;
+    const showFreeOnly = freeActivitiesCheckbox?.checked || false;
+
+    let filteredActivities = mockDB.activities;
+
+    // Filter by category
+    if (activeFilter !== 'all') {
+        filteredActivities = filteredActivities.filter(activity => 
+            activity.categories.includes(activeFilter)
+        );
+    }
+
+    // Filter by family-friendly
+    if (showFamilyFriendlyOnly) {
+        filteredActivities = filteredActivities.filter(activity => 
+            activity.tags.includes('Family-Friendly') || activity.tags.includes('Kid-Friendly')
+        );
+    }
+
+    // Filter by free activities
+    if (showFreeOnly) {
+        filteredActivities = filteredActivities.filter(activity => 
+            activity.price === 0
+        );
+    }
+
+    return filteredActivities;
+}
+
+// Function to sort activities
+function sortActivities(activities, sortType) {
+    const sortedActivities = [...activities];
+    
+    switch(sortType) {
+        case 'price-asc':
+            return sortedActivities.sort((a, b) => a.price - b.price);
+        case 'price-desc':
+            return sortedActivities.sort((a, b) => b.price - a.price);
+        case 'rating-asc':
+            return sortedActivities.sort((a, b) => a.rating - b.rating);
+        case 'rating-desc':
+            return sortedActivities.sort((a, b) => b.rating - a.rating);
+        case 'name-asc':
+            return sortedActivities.sort((a, b) => a.name.localeCompare(b.name));
+        case 'name-desc':
+            return sortedActivities.sort((a, b) => b.name.localeCompare(a.name));
+        case 'default':
+        default:
+            return sortedActivities.sort((a, b) => a.id - b.id);
+    }
+}
+
+// Setup activity filters
+function setupActivityFilters() {
+    const filterBtns = document.querySelectorAll('#activities .filter-btn');
+    const familyFriendlyCheckbox = document.getElementById('familyFriendlyActivities');
+    const freeActivitiesCheckbox = document.getElementById('freeActivities');
+
+    function filterActivities() {
+        const filteredActivities = applyCurrentActivityFilters();
+        const sortedActivities = sortActivities(filteredActivities, currentActivitySort);
+        
+        populateActivitiesGallery(sortedActivities);
+    }
+
+    // Set up filter button event listeners
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterActivities();
+        });
+    });
+
+    // Set up checkbox event listeners
+    if (familyFriendlyCheckbox) {
+        familyFriendlyCheckbox.addEventListener('change', filterActivities);
+    }
+    if (freeActivitiesCheckbox) {
+        freeActivitiesCheckbox.addEventListener('change', filterActivities);
+    }
+}
+
+// Setup activity sort controls
+function setupActivitySortControls() {
+    const sortSelect = document.getElementById('activitySortSelect');
+    
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            currentActivitySort = this.value;
+            
+            const filteredActivities = applyCurrentActivityFilters();
+            const sortedActivities = sortActivities(filteredActivities, currentActivitySort);
+            
+            populateActivitiesGallery(sortedActivities);
+        });
+    }
+}
+
 // Navigation functionality
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize restaurant gallery and filters
@@ -512,6 +688,11 @@ document.addEventListener('DOMContentLoaded', function() {
     populateAccommodationGallery();
     setupAccommodationFilters();
     setupSortControls();
+
+    // Initialize activities gallery, filters, and sorting
+    populateActivitiesGallery();
+    setupActivityFilters();
+    setupActivitySortControls();
 
     // Setup comparison controls
     setupComparisonControls();
