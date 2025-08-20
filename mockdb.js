@@ -177,7 +177,7 @@ const mockDB = {
       name: "Taniti Grand Resort & Spa",
       type: "Resort",
       stars: 4,
-      priceRange: "$$$$",
+      pricePerNight: 350,
       location: "Beachfront - North Shore",
       description: "Taniti's premier luxury resort featuring world-class amenities, multiple dining options, and pristine beachfront access. Perfect for those seeking the ultimate island getaway.",
       amenities: [
@@ -209,7 +209,7 @@ const mockDB = {
       name: "Island Backpackers Hostel",
       type: "Hostel",
       stars: 2,
-      priceRange: "$",
+      pricePerNight: 25,
       location: "Downtown",
       description: "Budget-friendly hostel perfect for adventurous travelers. Clean, safe, and social atmosphere with easy access to local attractions and nightlife.",
       amenities: [
@@ -235,7 +235,7 @@ const mockDB = {
       name: "Coral Bay Hotel",
       type: "Hotel",
       stars: 3,
-      priceRange: "$$",
+      pricePerNight: 120,
       location: "Harbor District",
       description: "Family-owned boutique hotel with personalized service and stunning harbor views. Three generations of hospitality excellence.",
       amenities: [
@@ -262,7 +262,7 @@ const mockDB = {
       name: "Sunset Palm Hotel",
       type: "Hotel",
       stars: 3,
-      priceRange: "$$",
+      pricePerNight: 110,
       location: "West Beach",
       description: "Charming family-run hotel known for spectacular sunset views and warm island hospitality. Each room uniquely decorated with local art.",
       amenities: [
@@ -289,7 +289,7 @@ const mockDB = {
       name: "Tropical Breeze Inn",
       type: "Hotel",
       stars: 2,
-      priceRange: "$",
+      pricePerNight: 75,
       location: "Village Center",
       description: "Cozy family-owned inn offering comfortable accommodations at great value. Walking distance to local shops and restaurants.",
       amenities: [
@@ -314,7 +314,7 @@ const mockDB = {
       name: "Mango Tree Hotel",
       type: "Hotel",
       stars: 3,
-      priceRange: "$$",
+      pricePerNight: 95,
       location: "Hillside",
       description: "Elevated hotel with panoramic island views, surrounded by lush tropical gardens. Family-owned for over 20 years.",
       amenities: [
@@ -341,7 +341,7 @@ const mockDB = {
       name: "Seashell Bed & Breakfast",
       type: "Bed & Breakfast",
       stars: 3,
-      priceRange: "$$",
+      pricePerNight: 140,
       location: "Coastal Road",
       description: "Intimate B&B with just six rooms, each with ocean views. Hosts Maria and Carlos serve homemade breakfast featuring local ingredients.",
       amenities: [
@@ -367,7 +367,7 @@ const mockDB = {
       name: "Hibiscus House B&B",
       type: "Bed & Breakfast",
       stars: 3,
-      priceRange: "$$",
+      pricePerNight: 130,
       location: "Historic District",
       description: "Beautifully restored colonial home turned B&B. Each room tells a story of Taniti's rich history with modern comfort.",
       amenities: [
@@ -393,7 +393,7 @@ const mockDB = {
       name: "Palm Grove Retreat",
       type: "Bed & Breakfast",
       stars: 3,
-      priceRange: "$$$",
+      pricePerNight: 220,
       location: "Secluded Bay",
       description: "Adults-only B&B nestled in a private palm grove. Perfect for romantic getaways with luxury amenities and personalized attention.",
       amenities: [
@@ -420,7 +420,7 @@ const mockDB = {
       name: "Garden View B&B",
       type: "Bed & Breakfast",
       stars: 2,
-      priceRange: "$",
+      pricePerNight: 65,
       location: "Inland Valley",
       description: "Budget-friendly B&B surrounded by tropical gardens and fruit trees. Hosts offer cooking classes and garden tours.",
       amenities: [
@@ -446,7 +446,7 @@ const mockDB = {
       name: "Coconut Cove Inn",
       type: "Bed & Breakfast",
       stars: 3,
-      priceRange: "$$",
+      pricePerNight: 105,
       location: "South Shore",
       description: "Charming beachside B&B with direct access to a quiet cove. Known for their fresh coconut pancakes and snorkeling equipment loans.",
       amenities: [

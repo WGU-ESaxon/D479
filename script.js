@@ -254,7 +254,7 @@ function populateAccommodationGallery(accommodations = mockDB.hotels) {
                     <div class="star-rating-inline">
                         ${'★'.repeat(hotel.stars)}${'☆'.repeat(5 - hotel.stars)}
                     </div>
-                    <span class="price-range-inline">${hotel.priceRange}</span>
+                    <span class="price-per-night">$${hotel.pricePerNight}/night</span>
                 </div>
                 <div class="accommodation-details">
                     <span class="accommodation-type">${hotel.type}</span>
@@ -369,8 +369,8 @@ function showComparison() {
                     <span class="detail-value">${hotel.rating}/5</span>
                 </div>
                 <div class="detail-row">
-                    <span class="detail-label">Price Range:</span>
-                    <span class="detail-value">${hotel.priceRange}</span>
+                    <span class="detail-label">Price per Night:</span>
+                    <span class="detail-value">$${hotel.pricePerNight}</span>
                 </div>
                 <div class="detail-row">
                     <span class="detail-label">Rooms:</span>
@@ -525,9 +525,9 @@ function sortAccommodations(accommodations, sortType) {
     
     switch(sortType) {
         case 'price-asc':
-            return sortedAccommodations.sort((a, b) => getPriceValue(a.priceRange) - getPriceValue(b.priceRange));
+            return sortedAccommodations.sort((a, b) => a.pricePerNight - b.pricePerNight);
         case 'price-desc':
-            return sortedAccommodations.sort((a, b) => getPriceValue(b.priceRange) - getPriceValue(a.priceRange));
+            return sortedAccommodations.sort((a, b) => b.pricePerNight - a.pricePerNight);
         case 'rating-asc':
             return sortedAccommodations.sort((a, b) => a.rating - b.rating);
         case 'rating-desc':
