@@ -215,10 +215,21 @@ function populateRestaurantGallery(restaurants = mockDB.restaurants) {
     `).join('');
 }
 
-// Add accommodation gallery population
+// Function to update accommodation results counter
+function updateAccommodationResultsCounter(count) {
+    const resultsCounter = document.getElementById('accommodationResultsCount');
+    if (resultsCounter) {
+        resultsCounter.textContent = count;
+    }
+}
+
+// Updated accommodation gallery population to include counter
 function populateAccommodationGallery(accommodations = mockDB.hotels) {
     const gallery = document.getElementById('accommodationGallery');
     if (!gallery) return;
+
+    // Update results counter
+    updateAccommodationResultsCounter(accommodations.length);
 
     gallery.innerHTML = accommodations.map(hotel => `
         <div class="accommodation-card-new" data-type="${hotel.type}" data-local="${hotel.isLocalFavorite}" data-kids="${hotel.hasKidsMenu}" data-hotel-id="${hotel.id}">
@@ -531,7 +542,7 @@ function sortAccommodations(accommodations, sortType) {
     }
 }
 
-// Setup sort controls
+// Updated sort controls to ensure counter updates
 function setupSortControls() {
     const sortSelect = document.getElementById('sortSelect');
     
@@ -582,6 +593,7 @@ function applyCurrentFilters() {
     return filteredAccommodations;
 }
 
+// Updated accommodation filtering functionality to include counter updates
 function setupAccommodationFilters() {
     const filterBtns = document.querySelectorAll('#accommodations .filter-btn');
     const localFavoritesCheckbox = document.getElementById('localFavoritesAccom');
