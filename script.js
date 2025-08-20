@@ -511,10 +511,20 @@ function setupAccommodationFilters() {
 // Activities functionality
 let currentActivitySort = 'default';
 
+// Function to update activity results counter
+function updateActivityResultsCounter(count) {
+    const resultsCounter = document.getElementById('activityResultsCount');
+    if (resultsCounter) {
+        resultsCounter.textContent = count;
+    }
+}
+
 // Function to populate activities gallery
 function populateActivitiesGallery(activities = mockDB.activities) {
     const gallery = document.getElementById('activitiesGallery');
     if (!gallery) return;
+
+    updateActivityResultsCounter(activities.length);
 
     gallery.innerHTML = activities.map(activity => `
         <div class="activity-card" data-categories='${JSON.stringify(activity.categories)}' data-price="${activity.price}" data-tags='${JSON.stringify(activity.tags)}'>
