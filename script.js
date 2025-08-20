@@ -744,6 +744,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Add click event listener for logo
+    const logoLink = document.querySelector('.logo-link');
+    if (logoLink) {
+        logoLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSection('home');
+        });
+    }
+
     // Search functionality (basic)
     const searchBtn = document.querySelector('.search-btn');
     const searchBar = document.querySelector('.search-bar');
