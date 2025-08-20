@@ -2,6 +2,119 @@
 let selectedHotels = [];
 const maxComparisons = 3;
 
+// Restaurant sorting variable
+let currentRestaurantSort = 'default';
+
+// Function to update restaurant results counter
+function updateRestaurantResultsCounter(count) {
+    const resultsCounter = document.getElementById('restaurantResultsCount');
+    if (resultsCounter) {
+        resultsCounter.textContent = count;
+    }
+}
+
+// Function to convert price range to numeric value for sorting
+function getRestaurantPriceValue(priceRange) {
+    switch(priceRange) {
+        case '$': return 1;
+        case '$$': return 2;
+        case '$$$': return 3;
+        case '$$$$': return 4;
+        default: return 0;
+    }
+}
+
+// Function to sort restaurants
+function sortRestaurants(restaurants, sortType) {
+    const sortedRestaurants = [...restaurants];
+    
+    switch(sortType) {
+        case 'price-asc':
+            return sortedRestaurants.sort((a, b) => getRestaurantPriceValue(a.priceRange) - getRestaurantPriceValue(b.priceRange));
+        case 'price-desc':
+            return sortedRestaurants.sort((a, b) => getRestaurantPriceValue(b.priceRange) - getRestaurantPriceValue(a.priceRange));
+        case 'rating-asc':
+            return sortedRestaurants.sort((a, b) => a.rating - b.rating);
+        case 'rating-desc':
+            return sortedRestaurants.sort((a, b) => b.rating - a.rating);
+        case 'name-asc':
+            return sortedRestaurants.sort((a, b) => a.name.localeCompare(b.name));
+        case 'name-desc':
+            return sortedRestaurants.sort((a, b) => b.name.localeCompare(a.name));
+        case 'default':
+        default:
+            return sortedRestaurants.sort((a, b) => a.id - b.id);
+    }
+}
+
+// Function to apply current restaurant filters
+function applyCurrentRestaurantFilters() {
+    const activeFilter = document.querySelector('#dining .filter-btn.active')?.dataset.filter || 'all';
+    const localFavoritesCheckbox = document.getElementById('localFavorites');
+    const kidsMenuCheckbox = document.getElementById('kidsMenu');
+    const showLocalOnly = localFavoritesCheckbox?.checked || false;
+    const showKidsOnly = kidsMenuCheckbox?.checked || false;
+    
+    let filteredRestaurants = mockDB.restaurants;
+
+    // Filter by cuisine type
+    if (activeFilter !== 'all') {
+        filteredRestaurants = filteredRestaurants.filter(restaurant => 
+            restaurant.cuisine === activeFilter
+        );
+    }
+
+    // Filter by local favorites
+    if (showLocalOnly) {
+        filteredRestaurants = filteredRestaurants.filter(restaurant => 
+            restaurant.isLocalFavorite === true
+        );
+    }
+
+    // Filter by kids menu
+    if (showKidsOnly) {
+        filteredRestaurants = filteredRestaurants.filter(restaurant => 
+            restaurant.hasKidsMenu === true
+        );
+    }
+
+    return filteredRestaurants;
+}
+
+// Function to apply current restaurant filters
+function applyCurrentRestaurantFilters() {
+    const activeFilter = document.querySelector('#dining .filter-btn.active')?.dataset.filter || 'all';
+    const localFavoritesCheckbox = document.getElementById('localFavorites');
+    const kidsMenuCheckbox = document.getElementById('kidsMenu');
+    const showLocalOnly = localFavoritesCheckbox?.checked || false;
+    const showKidsOnly = kidsMenuCheckbox?.checked || false;
+    
+    let filteredRestaurants = mockDB.restaurants;
+
+    // Filter by cuisine type
+    if (activeFilter !== 'all') {
+        filteredRestaurants = filteredRestaurants.filter(restaurant => 
+            restaurant.cuisine === activeFilter
+        );
+    }
+
+    // Filter by local favorites
+    if (showLocalOnly) {
+        filteredRestaurants = filteredRestaurants.filter(restaurant => 
+            restaurant.isLocalFavorite === true
+        );
+    }
+
+    // Filter by kids menu
+    if (showKidsOnly) {
+        filteredRestaurants = filteredRestaurants.filter(restaurant => 
+            restaurant.hasKidsMenu === true
+        );
+    }
+
+    return filteredRestaurants;
+}
+
 // Updated restaurant filtering functionality
 function setupRestaurantFilters() {
     const filterBtns = document.querySelectorAll('#dining .filter-btn');
@@ -15,34 +128,10 @@ function setupRestaurantFilters() {
     }
 
     function filterRestaurants() {
-        const activeFilter = document.querySelector('#dining .filter-btn.active')?.dataset.filter || 'all';
-        const showLocalOnly = localFavoritesCheckbox?.checked || false;
-        const showKidsOnly = kidsMenuCheckbox?.checked || false;
+        const filteredRestaurants = applyCurrentRestaurantFilters();
+        const sortedRestaurants = sortRestaurants(filteredRestaurants, currentRestaurantSort);
         
-        let filteredRestaurants = mockDB.restaurants;
-
-        // Filter by cuisine type
-        if (activeFilter !== 'all') {
-            filteredRestaurants = filteredRestaurants.filter(restaurant => 
-                restaurant.cuisine === activeFilter
-            );
-        }
-
-        // Filter by local favorites
-        if (showLocalOnly) {
-            filteredRestaurants = filteredRestaurants.filter(restaurant => 
-                restaurant.isLocalFavorite === true
-            );
-        }
-
-        // Filter by kids menu
-        if (showKidsOnly) {
-            filteredRestaurants = filteredRestaurants.filter(restaurant => 
-                restaurant.hasKidsMenu === true
-            );
-        }
-
-        populateRestaurantGallery(filteredRestaurants);
+        populateRestaurantGallery(sortedRestaurants);
     }
 
     // Set up filter button event listeners
@@ -66,10 +155,29 @@ function setupRestaurantFilters() {
     }
 }
 
-// Updated restaurant gallery population to match mockDB structure
+// Setup restaurant sort controls
+function setupRestaurantSortControls() {
+    const sortSelect = document.getElementById('restaurantSortSelect');
+    
+    if (sortSelect) {
+        sortSelect.addEventListener('change', function() {
+            currentRestaurantSort = this.value;
+            
+            const filteredRestaurants = applyCurrentRestaurantFilters();
+            const sortedRestaurants = sortRestaurants(filteredRestaurants, currentRestaurantSort);
+            
+            populateRestaurantGallery(sortedRestaurants);
+        });
+    }
+}
+
+// Updated restaurant gallery population to include counter
 function populateRestaurantGallery(restaurants = mockDB.restaurants) {
     const gallery = document.getElementById('restaurantGallery');
     if (!gallery) return;
+
+    // Update results counter
+    updateRestaurantResultsCounter(restaurants.length);
 
     gallery.innerHTML = restaurants.map(restaurant => `
         <div class="restaurant-card" data-cuisine="${restaurant.cuisine}" data-local="${restaurant.isLocalFavorite}" data-kids="${restaurant.hasKidsMenu}">
@@ -699,6 +807,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize restaurant gallery and filters
     populateRestaurantGallery();
     setupRestaurantFilters();
+    setupRestaurantSortControls();
 
     // Initialize accommodation gallery and filters
     populateAccommodationGallery();

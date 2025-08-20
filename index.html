@@ -262,6 +262,25 @@
                     </div>
                 </div>
 
+                <!-- Sort Controls with Results Counter -->
+                <div class="sort-controls">
+                    <div class="results-counter">
+                        <span id="restaurantResultsCount">13</span> restaurants found
+                    </div>
+                    <div class="sort-section">
+                        <div class="sort-label">Sort by:</div>
+                        <select id="restaurantSortSelect" class="sort-select">
+                            <option value="default">Default Order</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="rating-asc">Rating: Low to High</option>
+                            <option value="rating-desc">Rating: High to Low</option>
+                            <option value="name-asc">Name: A to Z</option>
+                            <option value="name-desc">Name: Z to A</option>
+                        </select>
+                    </div>
+                </div>
+
                 <!-- Restaurant Gallery -->
                 <div class="restaurant-gallery" id="restaurantGallery">
                     <!-- Restaurants will be populated by JavaScript -->
